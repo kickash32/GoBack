@@ -11,14 +11,26 @@ function updateQueryStringParameter(urlString, param, value) {
 
 function goToLocation(element) {
   let link = element.dataset.href;
-  let newURL = updateQueryStringParameter(link, fromQuery, window.location.href);
+  let newURL = updateQueryStringParameter(link, fromQuery, sanitize(window.location.href));
   console.log(newURL);
   window.location.href = newURL;
 }
 
-function goBack(){
+function sanitize(urlString){
+  let url = new URL(urlString);
+  let searchParams = url.searchParams;
+  searchParams.delete(fromQuery);
+  url.search = searchParams.toString();
+
+  return url.toString();
+}
+
+function goBack() {
   let searchParams = new URLSearchParams(window.location.search);
   let newURL = searchParams.get(fromQuery);
+
+  if (newURL == null) return false;
+
   window.location.href = newURL;
 }
 
