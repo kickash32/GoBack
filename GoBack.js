@@ -2,7 +2,7 @@ var fromQuery = 'fromURL';
 
 function updateQueryStringParameter(urlString, param, value) {
 	let url = new URL(urlString);
-	let searchParams = url.searchParams;
+  let searchParams = url.searchParams;
   searchParams.set(param, value);
   url.search = searchParams.toString();
   
@@ -34,10 +34,14 @@ function goBack() {
   window.location.href = newURL;
 }
 
-document.querySelectorAll("a").forEach(function(element){
-		element.dataset.href = element.href;
-    element.addEventListener("click", function(event) { 
-    	event.preventDefault(); // prevent default action l.e redirecting 
-      goToLocation(event.srcElement);
-		}); 
-  });
+function proressPage() {
+  document.querySelectorAll("a").forEach(function(element){
+      element.dataset.href = element.href;
+      element.addEventListener("click", function(event) { 
+        event.preventDefault(); // prevent default action l.e redirecting 
+        goToLocation(event.srcElement);
+      }); 
+    });
+}
+
+document.addEventListener("DOMContentLoaded", proressPage);
