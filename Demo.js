@@ -1,6 +1,6 @@
 function addGoBack() {
     document.querySelectorAll("#goBack").forEach(function(element) {
-        element.onclick = GoBack.goBack;
+        element.onclick = goBack;
     });
 }
 
