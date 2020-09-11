@@ -1,4 +1,4 @@
-class GoBack {
+export class GoBack {
     static queryVar: string = 'fromURL';
 
     static updateQueryStringParameter(urlString: string, param: string, value: string): string {
