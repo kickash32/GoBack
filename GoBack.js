@@ -1,6 +1,9 @@
-var fromQuery = 'fromURL';
+if (GoBack !== undefined) throw new Error("GoBack is already defined!");
+var GoBack = {};
 
-function updateQueryStringParameter(urlString, param, value) {
+GoBack.fromQuery = 'fromURL';
+
+GoBack.updateQueryStringParameter = function(urlString, param, value) {
     let url = new URL(urlString);
     let searchParams = url.searchParams;
     searchParams.set(param, value);
@@ -9,39 +12,39 @@ function updateQueryStringParameter(urlString, param, value) {
     return url.toString();
 }
 
-function goToLocation(element) {
+GoBack.goToLocation = function(element) {
     let link = element.dataset.href;
-    let newURL = updateQueryStringParameter(link, fromQuery, sanitize(window.location.href));
+    let newURL = GoBack.updateQueryStringParameter(link, GoBack.fromQuery, GoBack.sanitize(window.location.href));
     console.log(newURL);
     window.location.href = newURL;
 }
 
-function sanitize(urlString) {
+GoBack.sanitize = function(urlString) {
     let url = new URL(urlString);
     let searchParams = url.searchParams;
-    searchParams.delete(fromQuery);
+    searchParams.delete(GoBack.fromQuery);
     url.search = searchParams.toString();
 
     return url.toString();
 }
 
-function goBack() {
+GoBack.goBack = function() {
     let searchParams = new URLSearchParams(window.location.search);
-    let newURL = searchParams.get(fromQuery);
+    let newURL = searchParams.get(GoBack.fromQuery);
 
     if (newURL == null) return false;
 
     window.location.href = newURL;
 }
 
-function proressPage() {
+GoBack.proressPage = function() {
     document.querySelectorAll("a").forEach(function(element) {
         element.dataset.href = element.href;
         element.addEventListener("click", function(event) {
             event.preventDefault(); // prevent default action l.e redirecting 
-            goToLocation(event.srcElement);
+            GoBack.goToLocation(event.srcElement);
         });
     });
 }
 
-document.addEventListener("DOMContentLoaded", proressPage);
+document.addEventListener("DOMContentLoaded", GoBack.proressPage);
